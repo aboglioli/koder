@@ -15,3 +15,32 @@ Let's write and share code.
 - Content (posts in markdown format) and web source are separate.
 - Local development tool watch for changes.
 - Easy customization.
+
+## Use
+
+Folders:
+
+- `src/`: web code using React. Customize views and styles here.
+- `content/`: blog posts.
+
+After cloning this repository, install all dependencies:
+```
+yarn install
+```
+
+Local development:
+```
+yarn develop
+```
+
+Build project. Files are generated in `public/` folder.
+```
+yarn  build
+```
+
+Deploy (requires configuration in `package.json`):
+```
+yarn deploy
+```
+
+You can configure that scripts in `package.json`.
