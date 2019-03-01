@@ -14,20 +14,9 @@ const Bio = () => (
           marginBottom: rhythm(1 / 2),
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          justifyContent: 'flex-end',
         }}
       >
-        <Image
-          fixed={profile.childImageSharp.fixed}
-          alt={site.siteMetadata.author}
-          style={{
-            marginRight: rhythm(1 / 2),
-            marginBottom: 0,
-            width: 64,
-            height: 64,
-            borderRadius: '50%',
-          }}
-        />
         <div>
           <div style={{ textAlign: 'end' }}>
             <a href={site.siteMetadata.social.github} style={{ color: '#000' }}>
@@ -48,6 +37,17 @@ const Bio = () => (
           </div>
           <div>Alan Boglioli</div>
         </div>
+        <Image
+          fixed={profile.childImageSharp.fixed}
+                alt={site.siteMetadata.author}
+                style={{
+                  marginLeft: rhythm(1 / 2),
+                  marginBottom: 0,
+                  width: 64,
+                  height: 64,
+                  borderRadius: '50%',
+                }}
+        />
       </aside>
     )}
   />

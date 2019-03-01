@@ -11,7 +11,7 @@ const Header = ({ small }) => (
       query={query}
       render={({ site, logo }) => {
         const { title } = site.siteMetadata;
-        const width = small ? 100 : 100;
+        const width = small ? 80 : 100;
 
         return (
           <Link
@@ -19,7 +19,7 @@ const Header = ({ small }) => (
               textDecoration: 'none',
               color: 'inherit',
               display: 'flex',
-              justifyContent: small ? 'start' : 'center',
+              justifyContent: small ? 'center' : 'center',
               alignItems: 'center',
             }}
             to="/"
@@ -40,23 +40,25 @@ const Header = ({ small }) => (
               }}
             />
 
-            <h1
-              style={{
-                fontSize: rhythm(1),
-                margin: 0,
-              }}
-            >
-              KODER
-            </h1>
-            <h3
-              style={{
-                fontSize: rhythm(0.6),
-                color: 'rgb(255, 124, 75)',
-                margin: 0,
-              }}
-            >
-              DEV
-            </h3>
+            <div style={{ display: 'flex', alignItems: 'baseline' }}>
+              <h1
+                style={{
+                  fontSize: rhythm(1),
+                  margin: 0,
+                }}
+              >
+                KODER
+              </h1>
+              <h3
+                style={{
+                  fontSize: rhythm(0.6),
+                  color: 'rgb(255, 124, 75)',
+                  margin: 0,
+                }}
+              >
+                .DEV
+              </h3>
+            </div>
           </Link>
         );
       }}
