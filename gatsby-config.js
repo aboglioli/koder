@@ -1,11 +1,11 @@
 module.exports = {
   siteMetadata: {
-    url: 'https://gbs.surge.sh',
-    title: 'Alan Boglioli',
+    url: 'https://koder.dev',
+    title: 'Koder',
     author: 'Alan Boglioli',
     email: 'alan.boglioli@gmail.com',
-    description: 'Alan Boglioli',
-    siteUrl: 'https://gbs.surge.sh',
+    description: 'Blog about coding and development',
+    siteUrl: 'https://koder.dev',
     image: 'logo.png',
   },
   plugins: [

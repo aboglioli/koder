@@ -28,7 +28,9 @@ const BlogPost = ({ data, pageContext: { slug, collection } }) => {
   return (
     <Layout smallHeader title={title} description={description || excerpt}>
       {collection && (
-        <h3 style={{ marginBottom: rhythm(1 / 8), color: '#999' }}>
+        <h3 style={{ marginBottom: rhythm(1 / 8),
+                     color: 'rgb(255, 128, 74)',
+        }}>
           {collection}
         </h3>
       )}

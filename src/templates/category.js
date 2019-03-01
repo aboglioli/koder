@@ -10,12 +10,11 @@ import PostList from '../components/post-list';
 const Category = ({ pageContext, data }) => {
   const { category } = pageContext;
   const { edges: posts, totalCount } = data.allMarkdownRemark;
-  const categoryHeader = `${totalCount} post${
-    totalCount === 1 ? '' : 's'
-  } in "${category}"`;
+  const categoryHeader = `${totalCount} post${totalCount === 1 ? '' : 's'}`;
 
   return (
     <Layout smallHeader title={category} description={`Posts in ${category}`}>
+      <h1 style={{ marginBottom: rhythm(1) }}>{category}</h1>
       <h3 style={{ marginBottom: rhythm(1) }}>{categoryHeader}</h3>
       <PostList posts={mapPosts(posts)} />
     </Layout>

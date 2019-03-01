@@ -10,8 +10,9 @@ const Footer = () => (
       <footer
         style={{
           textAlign: 'center',
-          marginBottom: rhythm(1 / 4),
+          marginBottom: rhythm(1 / 2),
           borderTop: '1px solid rgb(232, 232, 232)',
+          paddingTop: rhythm(1 / 2),
         }}
       >
         {site.siteMetadata.author} © {new Date().getFullYear()}. Built with{' '}

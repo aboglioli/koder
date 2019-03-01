@@ -10,12 +10,11 @@ import PostList from '../components/post-list';
 const Tag = ({ pageContext, data }) => {
   const { tag } = pageContext;
   const { edges: posts, totalCount } = data.allMarkdownRemark;
-  const tagHeader = `${totalCount} post${
-    totalCount === 1 ? '' : 's'
-  } in "${tag}"`;
+  const tagHeader = `${totalCount} post${totalCount === 1 ? '' : 's'}`;
 
   return (
     <Layout smallHeader title={tag} description={`Publicaciones en ${tag}`}>
+      <h1 style={{ marginBottom: rhythm(1) }}>{tag}</h1>
       <h3 style={{ marginBottom: rhythm(1) }}>{tagHeader}</h3>
 
       <PostList posts={mapPosts(posts)} />

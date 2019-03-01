@@ -27,12 +27,16 @@ const PostPrevNext = ({ currentPostSlug, posts }) => {
         <Link style={{ float: 'left' }} to={prev.slug}>
           👈 {prev.title}
         </Link>
-      ) : '*'}
+      ) : (
+        '*'
+      )}
       {next ? (
         <Link style={{ float: 'right' }} to={next.slug}>
           {next.title} 👉
         </Link>
-      ) : '*'}
+      ) : (
+        '*'
+      )}
     </div>
   );
 };

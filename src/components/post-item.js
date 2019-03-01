@@ -9,10 +9,11 @@ import { rhythm } from '../utils/typography';
 const PostItem = ({ slug, title, date, description, category, collection }) => (
   <article
     style={{
-      backgroundColor: 'rgb(250, 250, 250)',
+      // backgroundColor: 'rgb(250, 250, 250)',
       padding: rhythm(1 / 2),
       marginBottom: rhythm(1),
       borderRadius: 4,
+      border: '5px solid rgb(250, 250, 250)',
     }}
   >
     <div
@@ -35,7 +36,7 @@ const PostItem = ({ slug, title, date, description, category, collection }) => (
           <Link
             style={{
               fontWeight: 'bold',
-              color: 'inherit',
+              color: 'rgb(120, 120, 120)',
             }}
             to={`/category/${kebabCase(category)}`}
           >
@@ -50,7 +51,7 @@ const PostItem = ({ slug, title, date, description, category, collection }) => (
           marginBottom: rhythm(0.1),
           fontSize: rhythm(0.5),
           fontWeight: 500,
-          color: '#555',
+          color: 'rgb(255, 128, 74)',
         }}
       >
         {collection}
@@ -61,7 +62,7 @@ const PostItem = ({ slug, title, date, description, category, collection }) => (
         marginBottom: rhythm(0.2),
         fontSize: rhythm(0.8),
         fontWeight: 500,
-        color: 'rgb(171, 58, 58)',
+        color: '#000',
       }}
     >
       <Link style={{ color: 'inherit', textDecoration: 'none' }} to={slug}>
