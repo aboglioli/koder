@@ -39,14 +39,14 @@ const Bio = () => (
         </div>
         <Image
           fixed={profile.childImageSharp.fixed}
-                alt={site.siteMetadata.author}
-                style={{
-                  marginLeft: rhythm(1 / 2),
-                  marginBottom: 0,
-                  width: 64,
-                  height: 64,
-                  borderRadius: '50%',
-                }}
+          alt={site.siteMetadata.author}
+          style={{
+            marginLeft: rhythm(1 / 2),
+            marginBottom: 0,
+            width: 64,
+            height: 64,
+            borderRadius: '50%',
+          }}
         />
       </aside>
     )}

@@ -44,7 +44,9 @@ const BlogPost = ({ data, pageContext: { slug, collection } }) => {
         </h3>
       )}
       <h1 style={{ marginBottom: rhythm(1 / 8) }}>{title}</h1>
-      <div style={{ color: 'rgba(120, 124, 126)', marginBottom: rhythm(1 / 8) }}>
+      <div
+        style={{ color: 'rgba(120, 124, 126)', marginBottom: rhythm(1 / 8) }}
+      >
         {capitalize(date)}
       </div>
 
