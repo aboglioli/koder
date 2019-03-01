@@ -23,6 +23,7 @@ const Nav = () => (
             borderRadius: rhythm(1 / 8),
             padding: rhythm(1 / 4),
             marginBottom: rhythm(1 / 2),
+            border: '1px solid #ffdcb7',
           }}
         >
           {categories.map((category, i) => (
@@ -31,9 +32,7 @@ const Nav = () => (
               style={{
                 flex: 1,
                 borderRight:
-                  i === categories.length - 1
-                    ? null
-                    : '1px solid rgb(0, 0, 0, 0.2)',
+                  i === categories.length - 1 ? null : '1px solid #ffdcb7',
                 textAlign: 'center',
               }}
             >

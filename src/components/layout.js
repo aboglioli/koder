@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { rhythm } from '../utils/typography';
 import Head from './head';
 import Header from './header';
+import Bio from './bio';
 import Footer from './footer';
 
 const Layout = ({ children, nav, smallHeader, ...headProps }) => (
@@ -18,6 +19,7 @@ const Layout = ({ children, nav, smallHeader, ...headProps }) => (
       }}
     >
       <Header small={smallHeader} />
+      {!smallHeader && <Bio />}
       {nav && <nav>{nav}</nav>}
       <main>{children}</main>
       <Footer />

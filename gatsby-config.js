@@ -7,6 +7,11 @@ module.exports = {
     description: 'Blog about coding and development',
     siteUrl: 'https://koder.dev',
     image: 'logo.png',
+    social: {
+      github: 'https://github.com/aboglioli',
+      instagram: 'https://instagram.com/alanboglioli',
+      facebook: 'https://facebook.com/alan.boglioli',
+    },
   },
   plugins: [
     'gatsby-plugin-react-helmet',
