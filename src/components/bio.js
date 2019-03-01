@@ -14,6 +14,7 @@ const Bio = () => (
           marginBottom: rhythm(1 / 2),
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
         <Image
@@ -24,25 +25,24 @@ const Bio = () => (
             marginBottom: 0,
             width: 64,
             height: 64,
-            borderRadius: '50%',
+             borderRadius: '50%',
           }}
         />
-        <div
-          style={{
-            display: 'block',
-          }}
-        >
-          <a href={site.siteMetadata.social.github} style={{ color: '#000' }}>
-            <FaGithub />
-          </a>{' '}
-          <a href={site.siteMetadata.social.instagram} style={{ color: '#f00' }}>
-            <FaInstagram />
-          </a>{' '}
-          <a href={site.siteMetadata.social.facebook} style={{ color: '#00f' }}>
-            <FaFacebook />
-          </a>
-          <br />
-          Alan Boglioli
+        <div>
+          <div style={{ textAlign: 'end' }}>
+            <a href={site.siteMetadata.social.github} style={{ color: '#000' }}>
+              <FaGithub />
+            </a>{' '}
+            <a href={site.siteMetadata.social.instagram} style={{ color: '#000' }}>
+              <FaInstagram />
+            </a>{' '}
+            <a href={site.siteMetadata.social.facebook} style={{ color: '#000' }}>
+              <FaFacebook />
+            </a>
+          </div>
+          <div>
+            Alan Boglioli
+          </div>
         </div>
       </aside>
     )}

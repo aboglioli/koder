@@ -14,7 +14,7 @@ const PostItem = ({ slug, title, date, description, category, collection }) => (
       padding: rhythm(1 / 2),
       marginBottom: rhythm(1 / 2),
       borderRadius: 4,
-      border: '5px solid rgb(250, 250, 250)',
+      border: '3px solid rgb(250, 250, 250)',
     }}
   >
     <div
