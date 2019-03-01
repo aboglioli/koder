@@ -4,14 +4,14 @@ import { graphql } from 'gatsby';
 
 import { mapPosts } from '../utils/helpers';
 import Layout from '../components/layout';
-import Nav from '../components/nav';
 import PostList from '../components/post-list';
 
 const Index = ({ data }) => {
   const posts = data.allMarkdownRemark.edges;
 
+  // disable Nav
   return (
-    <Layout nav={<Nav />}>
+    <Layout>
       <PostList posts={mapPosts(posts)} />
     </Layout>
   );

@@ -13,8 +13,8 @@ const PostCategoryAndTags = ({ category, tags }) => {
         flexWrap: 'wrap',
         fontSize: rhythm(0.5),
         backgroundColor: 'rgba(255, 229, 100, 0.2)',
+        paddingLeft: rhythm(1 / 4),
         borderRadius: rhythm(1 / 8),
-        padding: rhythm(1 / 4),
         marginBottom: rhythm(1),
       }}
     >

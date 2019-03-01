@@ -28,8 +28,6 @@ const BlogPost = ({ data, pageContext: { slug, collection } }) => {
 
   return (
     <Layout smallHeader title={title} description={description || excerpt}>
-      <PostCategoryAndTags category={category} tags={tags} />
-
       {collection && (
         <h3
           style={{
@@ -46,9 +44,11 @@ const BlogPost = ({ data, pageContext: { slug, collection } }) => {
         </h3>
       )}
       <h1 style={{ marginBottom: rhythm(1 / 8) }}>{title}</h1>
-      <div style={{ color: 'rgba(120, 124, 126)', marginBottom: rhythm(1) }}>
+      <div style={{ color: 'rgba(120, 124, 126)', marginBottom: rhythm(1 / 8) }}>
         {capitalize(date)}
       </div>
+
+      <PostCategoryAndTags category={category} tags={tags} />
 
       {collection && (
         <PostCollectionTable currentPostSlug={slug} posts={collectionPosts} />

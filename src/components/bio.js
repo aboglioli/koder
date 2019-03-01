@@ -25,7 +25,7 @@ const Bio = () => (
             marginBottom: 0,
             width: 64,
             height: 64,
-             borderRadius: '50%',
+            borderRadius: '50%',
           }}
         />
         <div>
@@ -33,16 +33,20 @@ const Bio = () => (
             <a href={site.siteMetadata.social.github} style={{ color: '#000' }}>
               <FaGithub />
             </a>{' '}
-            <a href={site.siteMetadata.social.instagram} style={{ color: '#000' }}>
+            <a
+              href={site.siteMetadata.social.instagram}
+              style={{ color: '#000' }}
+            >
               <FaInstagram />
             </a>{' '}
-            <a href={site.siteMetadata.social.facebook} style={{ color: '#000' }}>
+            <a
+              href={site.siteMetadata.social.facebook}
+              style={{ color: '#000' }}
+            >
               <FaFacebook />
             </a>
           </div>
-          <div>
-            Alan Boglioli
-          </div>
+          <div>Alan Boglioli</div>
         </div>
       </aside>
     )}
