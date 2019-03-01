@@ -8,7 +8,7 @@ import { rhythm } from '../utils/typography';
 const Header = ({ small }) => (
   <header
     style={{
-      margin: `${rhythm(1 / 2)} 0`,
+      margin: `${rhythm(1)} 0`,
     }}
   >
     <StaticQuery
@@ -43,7 +43,11 @@ const Header = ({ small }) => (
                 height: width,
               }}
             />
-            {small ? <h3 style={{ margin: 0 }}>{title}</h3> : <h1 style={{ margin: 0 }}>{title}</h1>}
+            {small ? (
+              <h3 style={{ margin: 0 }}>{title}</h3>
+            ) : (
+              <h1 style={{ margin: 0 }}>{title}</h1>
+            )}
           </Link>
         );
       }}

@@ -1,6 +1,6 @@
 ---
 title: Post example
-date: 2019-02-25
+date: 2019-02-25 14:35:00
 description: Example using Markdown.
 category: Category
 tags: [Tag1, Tag2]

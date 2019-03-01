@@ -16,10 +16,10 @@ const Nav = () => (
             justifyContent: 'center',
             fontSize: rhythm(0.5),
             backgroundColor: 'rgba(255, 229, 100, 0.2)',
-            borderRadius: rhythm(1 / 4),
+            borderRadius: rhythm(1 / 8),
             padding: rhythm(1 / 4),
             marginBottom: rhythm(1),
-            border: `1px solid rgba(0, 0, 0, 0.2)`,
+            border: `1px solid rgba(0, 0, 0, 0.1)`,
           }}
         >
           {group.map((category, i) => (

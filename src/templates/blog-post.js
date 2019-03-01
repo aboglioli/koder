@@ -1,93 +1,65 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { graphql, Link } from 'gatsby';
-import kebabCase from 'lodash/kebabCase';
+import { graphql } from 'gatsby';
 import capitalize from 'lodash/capitalize';
 
 import { rhythm } from '../utils/typography';
 import Layout from '../components/layout';
+import PostCategoryAndTags from '../components/post-category-and-tags';
+import PostCollectionTable from '../components/post-collection-table';
+import PostPrevNext from '../components/post-prev-next';
 
-const BlogPost = ({ data }) => {
+const BlogPost = ({ data, pageContext: { slug, collection } }) => {
   const {
     html,
     frontmatter: { title, date, tags, category, description },
     excerpt,
-  } = data.markdownRemark;
+  } = data.post;
+
+  let collectionPosts;
+
+  if (collection && data.collection) {
+    collectionPosts = data.collection.edges.map(({ node }) => ({
+      title: node.frontmatter.title,
+      slug: node.fields.slug,
+    }));
+  }
 
   return (
     <Layout smallHeader title={title} description={description || excerpt}>
+      {collection && (
+        <h3 style={{ marginBottom: rhythm(1 / 8), color: '#999' }}>
+          {collection}
+        </h3>
+      )}
       <h1 style={{ marginBottom: rhythm(1 / 8) }}>{title}</h1>
       <div style={{ color: 'rgba(120, 124, 126)', marginBottom: rhythm(1) }}>
         {capitalize(date)}
       </div>
 
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          fontSize: rhythm(0.5),
-          backgroundColor: 'rgba(255, 229, 100, 0.2)',
-          borderRadius: rhythm(1 / 4),
-          padding: rhythm(1 / 4),
-          marginBottom: rhythm(1),
-          border: `1px solid rgba(0, 0, 0, 0.2)`,
-        }}
-      >
-        <Link
-          style={{
-            fontWeight: 'bold',
-            color: 'inherit',
-          }}
-          to={`/category/${kebabCase(category)}`}
-        >
-          {category}
-        </Link>
+      <PostCategoryAndTags category={category} tags={tags} />
 
-        {tags && tags.length > 0 && (
-          <>
-            <span
-              style={{ marginLeft: rhythm(1 / 8), marginRight: rhythm(1 / 8) }}
-            >
-              •
-            </span>
-            {tags.map((tag, i) => (
-              <div key={tag}>
-                <Link
-                  style={{
-                    color: '#555',
-                  }}
-                  to={`/tag/${kebabCase(tag)}`}
-                >
-                  {tag}
-                </Link>
-                {i < tags.length - 1 && (
-                  <span
-                    style={{
-                      marginLeft: rhythm(1 / 8),
-                      marginRight: rhythm(1 / 8),
-                    }}
-                  >
-                    ·
-                  </span>
-                )}
-              </div>
-            ))}
-          </>
-        )}
-      </div>
+      {collection && (
+        <PostCollectionTable currentPostSlug={slug} posts={collectionPosts} />
+      )}
 
       <div dangerouslySetInnerHTML={{ __html: html }} />
+
+      {collection && (
+        <PostPrevNext currentPostSlug={slug} posts={collectionPosts} />
+      )}
     </Layout>
   );
 };
 
 BlogPost.propTypes = {
   data: PropTypes.object.isRequired,
+  pageContext: PropTypes.object.isRequired,
 };
 
 export const query = graphql`
-  query($slug: String!) {
-    markdownRemark(fields: { slug: { eq: $slug } }) {
+  query($slug: String!, $collection: String) {
+    post: markdownRemark(fields: { slug: { eq: $slug } }) {
       html
       excerpt
       frontmatter {
@@ -96,6 +68,21 @@ export const query = graphql`
         description
         tags
         category
+      }
+    }
+    collection: allMarkdownRemark(
+      sort: { fields: [frontmatter___date], order: ASC }
+      filter: { frontmatter: { collection: { eq: $collection } } }
+    ) {
+      edges {
+        node {
+          frontmatter {
+            title
+          }
+          fields {
+            slug
+          }
+        }
       }
     }
   }

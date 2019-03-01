@@ -2,7 +2,8 @@ module.exports = {
   siteMetadata: {
     url: 'https://gbs.surge.sh',
     title: 'Alan Boglioli',
-    author: 'Alan Boglioli <alan.boglioli@gmail.com>',
+    author: 'Alan Boglioli',
+    email: 'alan.boglioli@gmail.com',
     description: 'Alan Boglioli',
     siteUrl: 'https://gbs.surge.sh',
     image: 'logo.png',

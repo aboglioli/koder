@@ -25,6 +25,7 @@ exports.createPages = ({ graphql, actions }) => {
             frontmatter {
               category
               tags
+              collection
             }
             fields {
               slug
@@ -47,6 +48,7 @@ exports.createPages = ({ graphql, actions }) => {
         component: path.resolve('./src/templates/blog-post.js'),
         context: {
           slug: node.fields.slug,
+          collection: node.frontmatter.collection,
         },
       });
     });
