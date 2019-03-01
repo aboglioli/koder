@@ -16,7 +16,6 @@ const PostCategoryAndTags = ({ category, tags }) => {
         borderRadius: rhythm(1 / 8),
         padding: rhythm(1 / 4),
         marginBottom: rhythm(1),
-        border: `1px solid rgba(0, 0, 0, 0.1)`,
       }}
     >
       <Link

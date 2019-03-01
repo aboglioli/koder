@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'gatsby';
 import capitalize from 'lodash/capitalize';
+import { FaBook } from 'react-icons/fa';
 
 import { rhythm } from '../utils/typography';
 import Layout from '../components/layout';
@@ -27,10 +28,20 @@ const BlogPost = ({ data, pageContext: { slug, collection } }) => {
 
   return (
     <Layout smallHeader title={title} description={description || excerpt}>
+      <PostCategoryAndTags category={category} tags={tags} />
+
       {collection && (
-        <h3 style={{ marginBottom: rhythm(1 / 8),
-                     color: 'rgb(255, 128, 74)',
-        }}>
+        <h3
+          style={{
+            marginBottom: rhythm(1 / 4),
+            color: 'rgb(100, 100, 100)',
+            display: 'flex',
+            fontSize: rhythm(0.6),
+          }}
+        >
+          <FaBook
+            style={{ marginRight: rhythm(1 / 8), color: 'rgb(200, 200, 200)' }}
+          />{' '}
           {collection}
         </h3>
       )}
@@ -38,8 +49,6 @@ const BlogPost = ({ data, pageContext: { slug, collection } }) => {
       <div style={{ color: 'rgba(120, 124, 126)', marginBottom: rhythm(1) }}>
         {capitalize(date)}
       </div>
-
-      <PostCategoryAndTags category={category} tags={tags} />
 
       {collection && (
         <PostCollectionTable currentPostSlug={slug} posts={collectionPosts} />

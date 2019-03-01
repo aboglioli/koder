@@ -17,17 +17,26 @@ const Nav = () => (
           style={{
             display: 'flex',
             flexWrap: 'wrap',
-            justifyContent: 'center',
+            justifyContent: 'space-around',
             fontSize: rhythm(0.5),
             backgroundColor: 'rgba(255, 229, 100, 0.2)',
             borderRadius: rhythm(1 / 8),
             padding: rhythm(1 / 4),
-            marginBottom: rhythm(1),
-            border: `1px solid rgba(0, 0, 0, 0.1)`,
+            marginBottom: rhythm(1 / 2),
           }}
         >
           {categories.map((category, i) => (
-            <div key={category}>
+            <div
+              key={category}
+              style={{
+                flex: 1,
+                borderRight:
+                  i === categories.length - 1
+                    ? null
+                    : '1px solid rgb(0, 0, 0, 0.2)',
+                textAlign: 'center',
+              }}
+            >
               <Link
                 style={{
                   fontWeight: 'bold',
@@ -37,16 +46,6 @@ const Nav = () => (
               >
                 {category}
               </Link>
-              {i < categories.length - 1 && (
-                <span
-                  style={{
-                    marginLeft: rhythm(1 / 8),
-                    marginRight: rhythm(1 / 8),
-                  }}
-                >
-                  •
-                </span>
-              )}
             </div>
           ))}
         </div>

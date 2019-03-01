@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 import capitalize from 'lodash/capitalize';
 import kebabCase from 'lodash/kebabCase';
+import { FaBook } from 'react-icons/fa';
 
 import { rhythm } from '../utils/typography';
 
@@ -11,7 +12,7 @@ const PostItem = ({ slug, title, date, description, category, collection }) => (
     style={{
       // backgroundColor: 'rgb(250, 250, 250)',
       padding: rhythm(1 / 2),
-      marginBottom: rhythm(1),
+      marginBottom: rhythm(1 / 2),
       borderRadius: 4,
       border: '5px solid rgb(250, 250, 250)',
     }}
@@ -24,36 +25,39 @@ const PostItem = ({ slug, title, date, description, category, collection }) => (
         marginBottom: rhythm(0.3),
       }}
     >
-      <div style={{ color: 'rgba(120, 124, 126)' }}>{capitalize(date)}</div>
-
       {category && (
         <>
-          <span
-            style={{ marginLeft: rhythm(1 / 8), marginRight: rhythm(1 / 8) }}
-          >
-            •
-          </span>
           <Link
             style={{
               fontWeight: 'bold',
-              color: 'rgb(120, 120, 120)',
+              color: 'rgb(255, 128, 74)',
             }}
             to={`/category/${kebabCase(category)}`}
           >
             {category}
           </Link>
+          <span
+            style={{ marginLeft: rhythm(1 / 8), marginRight: rhythm(1 / 8) }}
+          >
+            •
+          </span>
         </>
       )}
+      <div style={{ color: 'rgba(120, 124, 126)' }}>{capitalize(date)}</div>
     </div>
     {collection && (
       <h5
         style={{
-          marginBottom: rhythm(0.1),
+          marginBottom: rhythm(0.3),
           fontSize: rhythm(0.5),
           fontWeight: 500,
-          color: 'rgb(255, 128, 74)',
+          color: '#000',
+          display: 'flex',
         }}
       >
+        <FaBook
+          style={{ marginRight: rhythm(1 / 8), color: 'rgb(200, 200, 200)' }}
+        />{' '}
         {collection}
       </h5>
     )}

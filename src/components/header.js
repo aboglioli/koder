@@ -6,11 +6,7 @@ import Image from 'gatsby-image';
 import { rhythm } from '../utils/typography';
 
 const Header = ({ small }) => (
-  <header
-    style={{
-      margin: `0 0 ${rhythm(1 / 2)} 0`,
-    }}
-  >
+  <header>
     <StaticQuery
       query={query}
       render={({ site, logo }) => {
