@@ -11,7 +11,7 @@
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\"",
     "lint": "eslint --fix src/",
-    "deploy": "surge public/ gbs.surge.sh"
+    "deploy": "surge public/ koder.dev"
   },
   "dependencies": {
     "gatsby": "^2.1.4",
