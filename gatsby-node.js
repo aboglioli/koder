@@ -54,7 +54,9 @@ exports.createPages = ({ graphql, actions }) => {
     });
 
     // create category page
-    let categories = posts.map(({ node }) => node.frontmatter.category);
+    let categories = posts
+      .map(({ node }) => node.frontmatter.category)
+      .filter(category => !!category);
 
     categories = _.uniq(categories);
 

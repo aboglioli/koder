@@ -33,7 +33,7 @@ const PostCollectionTable = ({ currentPostSlug, posts }) => {
         {posts.map(post => (
           <li key={post.slug} style={{ margin: 0, color: '#555' }}>
             {post.slug === currentPostSlug ? (
-              <span style={{ fontWeight: 700 }}>{post.title}</span>
+              <span>{post.title}</span>
             ) : (
               <Link to={post.slug}>{post.title}</Link>
             )}

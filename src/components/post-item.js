@@ -6,13 +6,12 @@ import kebabCase from 'lodash/kebabCase';
 
 import { rhythm } from '../utils/typography';
 
-const PostItem = ({ slug, title, date, description, category }) => (
+const PostItem = ({ slug, title, date, description, category, collection }) => (
   <article
     style={{
-      backgroundColor: 'rgb(252, 252, 252)',
+      backgroundColor: 'rgb(250, 250, 250)',
       padding: rhythm(1 / 2),
       marginBottom: rhythm(1),
-      border: '1px solid rgba(0, 0, 0, 0.1)',
       borderRadius: 4,
     }}
   >
@@ -20,6 +19,8 @@ const PostItem = ({ slug, title, date, description, category }) => (
       style={{
         display: 'flex',
         fontSize: rhythm(0.5),
+        borderBottom: '1px solid rgb(232, 232, 232)',
+        marginBottom: rhythm(0.3),
       }}
     >
       <div style={{ color: 'rgba(120, 124, 126)' }}>{capitalize(date)}</div>
@@ -43,12 +44,24 @@ const PostItem = ({ slug, title, date, description, category }) => (
         </>
       )}
     </div>
+    {collection && (
+      <h5
+        style={{
+          marginBottom: rhythm(0.1),
+          fontSize: rhythm(0.5),
+          fontWeight: 500,
+          color: '#555',
+        }}
+      >
+        {collection}
+      </h5>
+    )}
     <h3
       style={{
         marginBottom: rhythm(0.2),
-        marginTop: rhythm(0.3),
         fontSize: rhythm(0.8),
         fontWeight: 500,
+        color: '#dd0000',
       }}
     >
       <Link style={{ color: 'inherit', textDecoration: 'none' }} to={slug}>
@@ -69,6 +82,7 @@ PostItem.propTypes = {
   description: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string),
+  collection: PropTypes.string,
 };
 
 export default PostItem;

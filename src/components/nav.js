@@ -8,6 +8,10 @@ const Nav = () => (
   <StaticQuery
     query={query}
     render={({ allMarkdownRemark: { group } }) => {
+      const categories = group
+        .map(item => item.fieldValue)
+        .filter(category => !!category);
+
       return (
         <div
           style={{
@@ -22,18 +26,18 @@ const Nav = () => (
             border: `1px solid rgba(0, 0, 0, 0.1)`,
           }}
         >
-          {group.map((category, i) => (
-            <div key={category.fieldValue}>
+          {categories.map((category, i) => (
+            <div key={category}>
               <Link
                 style={{
                   fontWeight: 'bold',
                   color: 'inherit',
                 }}
-                to={`/category/${kebabCase(category.fieldValue)}`}
+                to={`/category/${kebabCase(category)}`}
               >
-                {category.fieldValue}
+                {category}
               </Link>
-              {i < group.length - 1 && (
+              {i < categories.length - 1 && (
                 <span
                   style={{
                     marginLeft: rhythm(1 / 8),
@@ -56,7 +60,6 @@ const query = graphql`
     allMarkdownRemark(limit: 2000) {
       group(field: frontmatter___category) {
         fieldValue
-        totalCount
       }
     }
   }

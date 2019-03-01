@@ -44,3 +44,20 @@ yarn deploy
 ```
 
 You can configure that scripts in `package.json`.
+
+## Posts
+
+Available *frontmatter* fields:
+
+- title: `title: Starting an amazing adventure`. *Required*.
+- date: `date: 2019-03-01 15:21:00` or `2019-03-01`. *Required*.
+- description: `description: It will be shown in main page`
+- category: `category: Backend`.
+- tags: `tags: [GraphQL, NodeJS]`.
+- collection: `collection: Amazing adventure`. *Required*.
+
+Only `title` is required.
+
+`collection` is a special field. All posts with the same collection name
+(string) are going to be grouped and a content table generated to navigate
+between those posts.

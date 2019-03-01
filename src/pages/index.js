@@ -9,6 +9,7 @@ import PostList from '../components/post-list';
 
 const Index = ({ data }) => {
   const posts = data.allMarkdownRemark.edges;
+  console.log(posts);
 
   return (
     <Layout nav={<Nav />}>
@@ -41,6 +42,7 @@ export const query = graphql`
             description
             category
             tags
+            collection
           }
         }
       }
