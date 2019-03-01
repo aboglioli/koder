@@ -23,6 +23,8 @@ exports.createPages = ({ graphql, actions }) => {
         edges {
           node {
             frontmatter {
+              title
+              date
               category
               tags
               collection
@@ -40,6 +42,13 @@ exports.createPages = ({ graphql, actions }) => {
     }
 
     const posts = result.data.allMarkdownRemark.edges;
+    const requiredFields = ['title', 'date', 'category'];
+
+    posts.forEach(({ node }) => {
+      if (requiredFields.some(field => !node.frontmatter[field])) {
+        throw new Error(`Missing required field in ${node.fields.slug}`);
+      }
+    });
 
     // create post detail page
     posts.forEach(({ node }) => {

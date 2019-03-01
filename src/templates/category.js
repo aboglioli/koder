@@ -46,6 +46,7 @@ export const query = graphql`
             description
             category
             tags
+            collection
           }
           fields {
             slug

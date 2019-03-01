@@ -52,9 +52,9 @@ Available *frontmatter* fields:
 - title: `title: Starting an amazing adventure`. *Required*.
 - date: `date: 2019-03-01 15:21:00` or `2019-03-01`. *Required*.
 - description: `description: It will be shown in main page`
-- category: `category: Backend`.
+- category: `category: Backend`. *Required*.
 - tags: `tags: [GraphQL, NodeJS]`.
-- collection: `collection: Amazing adventure`. *Required*.
+- collection: `collection: Amazing adventure`.
 
 Only `title` is required.
 

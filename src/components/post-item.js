@@ -61,7 +61,7 @@ const PostItem = ({ slug, title, date, description, category, collection }) => (
         marginBottom: rhythm(0.2),
         fontSize: rhythm(0.8),
         fontWeight: 500,
-        color: '#dd0000',
+        color: 'rgb(171, 58, 58)',
       }}
     >
       <Link style={{ color: 'inherit', textDecoration: 'none' }} to={slug}>
