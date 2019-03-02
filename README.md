@@ -1,4 +1,7 @@
-# Gatsby Blog Starter
+# Koder.dev
+
+This website is made using my own
+[gatsby-blog-starter](https://github.com/aboglioli/gatsby-blog-starter).
 
 A template for building blogs about coding and development with Gatsby.
 
@@ -56,8 +59,7 @@ Available *frontmatter* fields:
 - tags: `tags: [GraphQL, NodeJS]`.
 - collection: `collection: Amazing adventure`.
 
-Only `title` is required.
-
 `collection` is a special field. All posts with the same collection name
 (string) are going to be grouped and a content table generated to navigate
-between those posts.
+between those posts. [An Adventure in
+Go](https://koder.dev/an-adventure-in-go/01) shows how it works.
