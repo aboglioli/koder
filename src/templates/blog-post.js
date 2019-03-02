@@ -13,7 +13,7 @@ import PostPrevNext from '../components/post-prev-next';
 const BlogPost = ({ data, pageContext: { slug, collection } }) => {
   const {
     html,
-    frontmatter: { title, date, tags, category, description },
+    frontmatter: { title, date, tags, category, description, draft },
     excerpt,
   } = data.post;
 
@@ -50,7 +50,7 @@ const BlogPost = ({ data, pageContext: { slug, collection } }) => {
         {capitalize(date)}
       </div>
 
-      <PostCategoryAndTags category={category} tags={tags} />
+      <PostCategoryAndTags category={category} tags={tags} draft={draft} />
 
       {collection && (
         <PostCollectionTable currentPostSlug={slug} posts={collectionPosts} />

@@ -5,7 +5,7 @@ import kebabCase from 'lodash/kebabCase';
 
 import { rhythm } from '../utils/typography';
 
-const PostCategoryAndTags = ({ category, tags }) => {
+const PostCategoryAndTags = ({ category, tags, draft }) => {
   return (
     <div
       style={{
@@ -18,6 +18,16 @@ const PostCategoryAndTags = ({ category, tags }) => {
         marginBottom: rhythm(1),
       }}
     >
+      {draft && (
+        <>
+          <b style={{ color: '#e00' }}>DRAFT</b>
+          <span
+            style={{ marginLeft: rhythm(1 / 8), marginRight: rhythm(1 / 8) }}
+          >
+            |
+          </span>
+        </>
+      )}
       <Link
         style={{
           fontWeight: 'bold',
@@ -63,9 +73,14 @@ const PostCategoryAndTags = ({ category, tags }) => {
   );
 };
 
+PostCategoryAndTags.defaultProps = {
+  draft: false,
+};
+
 PostCategoryAndTags.propTypes = {
   category: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string),
+  draft: PropTypes.bool,
 };
 
 export default PostCategoryAndTags;

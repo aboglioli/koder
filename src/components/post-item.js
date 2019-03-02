@@ -38,7 +38,7 @@ const PostItem = ({
           <span
             style={{ marginLeft: rhythm(1 / 8), marginRight: rhythm(1 / 8) }}
           >
-            •
+            |
           </span>
         </>
       )}
@@ -97,6 +97,10 @@ const PostItem = ({
   </article>
 );
 
+PostItem.defaultProps = {
+  draft: false,
+};
+
 PostItem.propTypes = {
   slug: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
@@ -105,7 +109,7 @@ PostItem.propTypes = {
   category: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string),
   collection: PropTypes.string,
-  draft: PropTypes.bool.isRequired,
+  draft: PropTypes.bool,
 };
 
 export default PostItem;
