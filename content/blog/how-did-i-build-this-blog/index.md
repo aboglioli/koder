@@ -7,3 +7,11 @@ tags: [Static site generator, GatsbyJS]
 ---
 
 > **Spoiler**: using GatsbyJS and some magic.
+
+[GatsbyJS](https://gatsbyjs.org) is a static website generator. As explained on
+its official site there are two important parts as in any website:
+
+- Content or data
+- Views and layouts
+
+![Gatsby flow](./gatsby-flow.jpg)

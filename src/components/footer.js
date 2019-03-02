@@ -10,6 +10,7 @@ const Footer = () => (
       <footer
         style={{
           textAlign: 'center',
+          marginTop: rhythm(1 / 2),
           marginBottom: rhythm(1 / 2),
           borderTop: '1px solid rgb(232, 232, 232)',
           paddingTop: rhythm(1 / 2),

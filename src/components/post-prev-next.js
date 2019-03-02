@@ -17,7 +17,6 @@ const PostPrevNext = ({ currentPostSlug, posts }) => {
   return (
     <div
       style={{
-        marginBottom: rhythm(1),
         display: 'flex',
         justifyContent: 'space-between',
         fontSize: rhythm(0.6),
