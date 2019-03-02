@@ -1,5 +1,5 @@
 import React from 'react';
-import { StaticQuery, graphql } from 'gatsby';
+import { StaticQuery, graphql, Link } from 'gatsby';
 import Image from 'gatsby-image';
 import { FaGithub, FaInstagram, FaFacebook } from 'react-icons/fa';
 
@@ -36,6 +36,9 @@ const Bio = () => (
             </a>
           </div>
           <div>Alan Boglioli</div>
+          <div style={{ textAlign: 'end', fontSize: rhythm(1 / 2) }}>
+            <Link to="/who-am-i">Who am i?</Link>
+          </div>
         </div>
         <Image
           fixed={profile.childImageSharp.fixed}
