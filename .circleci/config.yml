@@ -6,19 +6,11 @@ defaults: &defaults
     - image: circleci/node:latest
 
 jobs:
-  prepare:
+  build:
     <<: *defaults
     steps:
       - checkout
       - run: npm install
       - run: npm run clean
-  build:
-    <<: *defaults
-    steps:
-      - checkout
       - run: npm run build
-  deploy:
-    <<: *defaults
-    steps:
-      - checkout
       - run: npm run deploy
