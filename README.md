@@ -1,5 +1,7 @@
 # Koder.dev
 
+[![CircleCI](https://circleci.com/gh/aboglioli/koder.svg?style=svg)](https://circleci.com/gh/aboglioli/koder)
+
 This website is made using my own
 [gatsby-blog-starter](https://github.com/aboglioli/gatsby-blog-starter).
 
