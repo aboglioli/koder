@@ -8,3 +8,6 @@ draft: true
 
 > “El Universo no parece ni benigno ni hostil, simplemente indiferente a las
 preocupaciones de seres tan insignificantes como nosotros.” - **Carl Sagan**
+
+Así es, la insignificancia asusta. El no tener un propósito aún más. Pero
+empecemos por lo seguro, **te vas a morir**.
