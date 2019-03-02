@@ -7,10 +7,17 @@ import { FaBook } from 'react-icons/fa';
 
 import { rhythm } from '../utils/typography';
 
-const PostItem = ({ slug, title, date, description, category, collection }) => (
+const PostItem = ({
+  slug,
+  title,
+  date,
+  description,
+  category,
+  collection,
+  draft,
+}) => (
   <article
     style={{
-      // backgroundColor: 'rgb(250, 250, 250)',
       padding: rhythm(1 / 2),
       marginBottom: rhythm(1 / 2),
       borderRadius: 4,
@@ -25,6 +32,16 @@ const PostItem = ({ slug, title, date, description, category, collection }) => (
         marginBottom: rhythm(0.3),
       }}
     >
+      {draft && (
+        <>
+          <b style={{ color: '#e00' }}>DRAFT</b>
+          <span
+            style={{ marginLeft: rhythm(1 / 8), marginRight: rhythm(1 / 8) }}
+          >
+            •
+          </span>
+        </>
+      )}
       {category && (
         <>
           <Link
@@ -88,6 +105,7 @@ PostItem.propTypes = {
   category: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string),
   collection: PropTypes.string,
+  draft: PropTypes.bool.isRequired,
 };
 
 export default PostItem;

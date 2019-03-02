@@ -4,12 +4,20 @@ const _ = require('lodash');
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions;
+
   if (node.internal.type === 'MarkdownRemark') {
     const slug = createFilePath({ node, getNode, basePath: 'pages' });
     createNodeField({
       node,
       name: 'slug',
       value: slug,
+    });
+
+    const draft = node.frontmatter ? !!node.frontmatter.draft : false;
+    createNodeField({
+      node,
+      name: 'draft',
+      value: draft && process.env.NODE_ENV === 'production',
     });
   }
 };
@@ -19,7 +27,7 @@ exports.createPages = ({ graphql, actions }) => {
 
   return graphql(`
     {
-      allMarkdownRemark {
+      allMarkdownRemark(filter: { fields: { draft: { eq: false } } }) {
         edges {
           node {
             frontmatter {
@@ -28,7 +36,6 @@ exports.createPages = ({ graphql, actions }) => {
               category
               tags
               collection
-              draft
             }
             fields {
               slug
@@ -52,18 +59,16 @@ exports.createPages = ({ graphql, actions }) => {
     });
 
     // create post detail page
-    posts
-      .filter(({ node }) => !node.frontmatter.draft)
-      .forEach(({ node }) => {
-        createPage({
-          path: node.fields.slug,
-          component: path.resolve('./src/templates/blog-post.js'),
-          context: {
-            slug: node.fields.slug,
-            collection: node.frontmatter.collection,
-          },
-        });
+    posts.forEach(({ node }) => {
+      createPage({
+        path: node.fields.slug,
+        component: path.resolve('./src/templates/blog-post.js'),
+        context: {
+          slug: node.fields.slug,
+          collection: node.frontmatter.collection,
+        },
       });
+    });
 
     // create category page
     let categories = posts

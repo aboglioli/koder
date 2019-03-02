@@ -34,19 +34,26 @@ export const query = graphql`
     }
   }
 
+  fragment PostFields on MarkdownRemark {
+    fields {
+      slug
+    }
+  }
+
   query {
     site {
       siteMetadata {
         title
       }
     }
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
+    allMarkdownRemark(
+      sort: { fields: [frontmatter___date], order: DESC }
+      filter: { fields: { draft: { eq: false } } }
+    ) {
       edges {
         node {
           excerpt
-          fields {
-            slug
-          }
+          ...PostFields
           ...PostFrontmatter
         }
       }
