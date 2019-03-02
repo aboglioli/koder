@@ -75,13 +75,7 @@ export const query = graphql`
     post: markdownRemark(fields: { slug: { eq: $slug } }) {
       html
       excerpt
-      frontmatter {
-        title
-        date(formatString: "MMMM DD, YYYY", locale: "en")
-        description
-        tags
-        category
-      }
+      ...PostFrontmatter
     }
     collection: allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: ASC }

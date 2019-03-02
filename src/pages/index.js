@@ -22,6 +22,18 @@ Index.propTypes = {
 };
 
 export const query = graphql`
+  fragment PostFrontmatter on MarkdownRemark {
+    frontmatter {
+      date(formatString: "MMMM DD, YYYY", locale: "en")
+      title
+      description
+      category
+      tags
+      collection
+      draft
+    }
+  }
+
   query {
     site {
       siteMetadata {
@@ -35,14 +47,7 @@ export const query = graphql`
           fields {
             slug
           }
-          frontmatter {
-            date(formatString: "MMMM DD, YYYY", locale: "en")
-            title
-            description
-            category
-            tags
-            collection
-          }
+          ...PostFrontmatter
         }
       }
     }

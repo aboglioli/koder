@@ -28,6 +28,7 @@ exports.createPages = ({ graphql, actions }) => {
               category
               tags
               collection
+              draft
             }
             fields {
               slug
@@ -51,16 +52,18 @@ exports.createPages = ({ graphql, actions }) => {
     });
 
     // create post detail page
-    posts.forEach(({ node }) => {
-      createPage({
-        path: node.fields.slug,
-        component: path.resolve('./src/templates/blog-post.js'),
-        context: {
-          slug: node.fields.slug,
-          collection: node.frontmatter.collection,
-        },
+    posts
+      .filter(({ node }) => !node.frontmatter.draft)
+      .forEach(({ node }) => {
+        createPage({
+          path: node.fields.slug,
+          component: path.resolve('./src/templates/blog-post.js'),
+          context: {
+            slug: node.fields.slug,
+            collection: node.frontmatter.collection,
+          },
+        });
       });
-    });
 
     // create category page
     let categories = posts

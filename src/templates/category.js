@@ -39,14 +39,7 @@ export const query = graphql`
       edges {
         node {
           excerpt
-          frontmatter {
-            date(formatString: "MMMM DD, YYYY", locale: "es")
-            title
-            description
-            category
-            tags
-            collection
-          }
+          ...PostFrontmatter
           fields {
             slug
           }
