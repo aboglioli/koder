@@ -8,6 +8,9 @@ defaults: &defaults
 jobs:
   build:
     <<: *defaults
+    branches:
+      only:
+        - master
     steps:
       - checkout
       - run: npm install
