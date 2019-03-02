@@ -94,4 +94,91 @@ and units to make this more interesting.
 
 # First step
 
-asd
+```js
+const db = [
+  {
+    id: 'product1',
+    name: 'Product 1',
+    cost: {
+      value: 5,
+      quantity: {
+        value: 1,
+        unit: 'kg',
+      },
+    },
+  },
+  {
+    id: 'product2',
+    name: 'Product 2',
+    cost: {
+      value: 10,
+      quantity: {
+        value: 500,
+        unit: 'g',
+      },
+    },
+  },
+  {
+    id: 'product3',
+    name: 'Product 3',
+    cost: 0, // dependent
+    composition: [
+      {
+        of: 'product1',
+        quantity: {
+          value: 2000,
+          unit: 'g',
+        },
+      },
+      {
+        of: 'product2',
+        quantity: {
+          value: 0.250,
+          unit: 'kg',
+        },
+      },
+    ],
+  },
+];
+
+const findProductById = id => db.find(item => item.id === id);
+
+const units = {
+  kg: 1000,
+  g: 1,
+}
+
+const normalize = (value, unitName) => value * units[unitName];
+
+const calculateCost = (quantity, cost) => {
+  // normalized quantity value
+  const nQuantityValue = normalize(quantity.value, quantity.unit);
+  // normalized cost quantity value
+  const nCostQuantityValue = normalize(cost.quantity.value, cost.quantity.unit);
+  
+  return nQuantityValue * (cost.value / nCostQuantityValue);
+}
+
+const calculateCosts = db =>
+  db.map(product => {    
+    if (!product.composition) {
+      return product;
+    }
+    
+    const cost = product.composition
+      .reduce((cost, comp) => {
+        const prodComposition = findProductById(comp.of);
+        return cost + calculateCost(comp.quantity, prodComposition.cost);
+      }, 0);
+    
+    return {
+      ...product,
+      cost
+    };
+  });
+
+console.log("Cost should be:", 2000 * (5 / 1000) + (250 * (10 / 500)));
+
+const mappedDb = calculateCosts(db);
+console.log(JSON.stringify(mappedDb, null, 2));
+```
