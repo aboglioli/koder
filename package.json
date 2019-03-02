@@ -11,7 +11,8 @@
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\"",
     "lint": "eslint --fix src/",
-    "deploy": "surge public/ koder.dev"
+    "deploy": "surge public/ koder.dev",
+    "clean": "rm -r .cache public"
   },
   "dependencies": {
     "gatsby": "^2.1.4",
