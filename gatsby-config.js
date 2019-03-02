@@ -73,8 +73,8 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'Alan Boglioli',
-        short_name: 'Alan Boglioli',
+        name: 'Koder',
+        short_name: 'Koder',
         start_url: '/',
         background_color: `#ffffff`,
         theme_color: `#663399`,
