@@ -49,7 +49,7 @@ const Bio = () => (
           </div>
           <div>Alan Boglioli</div>
           <div style={{ textAlign: 'end', fontSize: rhythm(1 / 2) }}>
-            <Link to="/who-am-i">Who am i?</Link>
+            <Link to="/who-am-i">Who am I?</Link>
           </div>
         </div>
         <Image

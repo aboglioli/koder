@@ -138,6 +138,8 @@ console.log(JSON.stringify(mappedDb, null, 2));
 
 *See it in [action](https://jsbin.com/gazufad/4/edit?js,console).*
 
+-----
+
 ### Units, normalization and cost calculation
 
 The following explanation is only to understand the *normalization* and the
@@ -167,6 +169,8 @@ total_cost = 2000 [g] * ($5 / 1000 [g]) + 250 [g] * ($10 / 500 [g]) = $15
 
 Our function `calculateCosts` is responsible for iterating over the product list
 and calculating the costs of those who have *compositions*.
+
+-----
 
 ## Watching for changes
 
@@ -278,8 +282,9 @@ Old options are
 [Object.watch](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Object/watch)
 and
 [Object.observe](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Object/observe)
-to trigger actions when an object property is changed. But let them die in
-peace. We can craft our own tools!
+to trigger actions when an object property is changed. We have
+[Object.\_\_defineGetter\_\_](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Object/__defineGetter__)
+too. But let them die in peace. We can craft our own tools!
 
 Let's play with [getters and
 setters](https://www.w3schools.com/js/js_object_accessors.asp):
@@ -324,9 +329,6 @@ Object.defineProperty(
   }
 );
 ```
-
-[Object.\_\_defineGetter\_\_](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Object/__defineGetter__)
-is another old option. Don't use it!
 
 Now we are ready to *trigger* calculations in a fancier way. First, let's create
 a factory function.
@@ -413,8 +415,9 @@ const calculateCosts = db =>
 ```
 
 Be careful! To call the setter it's necessary to assign the property directly
-through the dot (`product.cost = ...`). In the previous example we created a new
-product object merging its properties and the new `cost` using the [spread
+through the dot notation (`product.cost = ...`). In the previous example we
+created a new product object merging its properties and the new `cost` using the
+[spread
 operator](https://zendev.com/2018/05/09/understanding-spread-operator-in-javascript.html),
 but this would overwrite the setter and we would lose the possibility of
 executing custom functions. You know, it's mandatory to keep the same instance
@@ -515,8 +518,8 @@ product4 => product5
 
 Do you see the new problem? **product5** cost is calculated twice. It can be
 avoided by caching or making a list of products to be updated (without
-repetitions) before updating. At least we don't update all the products, it's an
-advance.
+repetitions) before updating. At least we don't need to update all the products,
+it's an advance.
 
 ### [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy): the fanciest way
 
@@ -571,6 +574,11 @@ console.log(pObj.message);
 
 Can you see the possibilities? Proxy allows us to intercept any call or
 interaction with the object (*target*).
+
+So do you think it is similar to the previous example using *getters* and
+*setters*? I'll save you the efforts of searching: [differences between
+getters/setters and
+Proxy](https://forum.kirupa.com/t/es6-proxy-vs-getters-setters/638547).
 
 ## Rising a new library
 
