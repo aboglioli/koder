@@ -10,7 +10,8 @@ draft: true
 I know there are some libraries to compute properties value of Javascript
 objects. But I didn't find a good one.
 
-The following code is merely demonstrative but it's based on a real case.
+The following code is merely demonstrative but it's based on a real case. And
+I'm crafting a new library while I write this post.
 
 Let's say I have a main object containing all the data. There are products and
 relations between them.
@@ -265,7 +266,7 @@ Suppose we have the following structure:
 the cost. The order of calculations should be product3, product4 and after all
 product5. Here we start to complicate things with the dependencies.
 
-Our example is no longer useful. Sorry.
+Previous example is no longer useful. Sorry.
 
 ### Getters and setters to the rescue
 
@@ -413,12 +414,16 @@ const calculateCosts = db =>
 
 Be careful! To call the setter it's necessary to assign the property directly
 through the dot (`product.cost = ...`). In the previous example we created a new
-product object merging its properties and the new `cost`, but this would
-overwrite the setter and we would lose the possibility of executing custom
-functions. You know, it's mandatory to keep the same instance of the object.
+product object merging its properties and the new `cost` using the [spread
+operator](https://zendev.com/2018/05/09/understanding-spread-operator-in-javascript.html),
+but this would overwrite the setter and we would lose the possibility of
+executing custom functions. You know, it's mandatory to keep the same instance
+of the object or [clone](https://stackoverflow.com/a/34481052/7388853) the
+object properly.
 
 Another problem is accessing sub-properties: `product1.cost.value = 10`, because
-this won't activate the *setter*.
+this won't activate the *setter*. We aren't alone in
+[this](https://stackoverflow.com/a/25342668/7388853).
 
 Maybe we could create another function to update the object safely. But...
 better [KISS](https://en.wikipedia.org/wiki/KISS_principle) it for the moment.
@@ -426,15 +431,147 @@ better [KISS](https://en.wikipedia.org/wiki/KISS_principle) it for the moment.
 It's time to decide where we are going to calculate the costs: in the *getter*
 or in the *setter*. Reading is more frequent than writing. Also we don't want to
 be calculating the value every time we access the property because with many
-products it can become very heavy.
+products it can become very heavy. So I lied to you because **computed
+properties** are processed at the moment they are accessed (reading). Here we
+are looking for a more complex solution. [Take a
+look](https://vuejs.org/v2/guide/computed.html) at VueJS support for computed
+properties.
 
-The strategy is simple: activate *set cost()* setting a new value, find the
-dependent products and recalculate their costs. First of all let's code a
-function to calculate costs by product id.
+The strategy is simple: activate `set cost()` by setting a new value, find the
+dependent products and recalculate their costs, and repeat. First of all let's
+code a function to calculate costs and other future properties.
 
 **product4** and **product5** have been added
-[here](https://jsbin.com/nucazal/edit?js,console).
+[here](https://jsbin.com/nucazal/edit?js,console). There you can see the
+complete example.
 
 ```javascript
+const newProduct = ({ cost, ...data }) => ({
+  ...data,
+  _cost: cost,
+  get cost() {
+    return this._cost;
+  },
+  set cost(value) {
+    this._cost = value; // it's important to set the value first
+  
+    // Find dependent products and update their costs
+    db.filter(
+      item => item.composition &&
+        item.composition.some(comp => comp.of === this.id)
+    ).forEach(product => updateProduct(product));
+  },                            
+});
+
+const updateProduct = product => {
+  if (!product.composition) {
+    return product;
+  }
+  
+  const costValue = product.composition
+    .map(comp => ({
+      comp,
+      prodComposition: findProductById(comp.of)
+    }))
+    .reduce((cost, { comp, prodComposition }) =>
+      cost + calculateCost(comp.quantity, prodComposition.cost),
+      0,
+    );
+  
+  // Trigger calculation of products dependent on this
+  product.cost = {
+    value: costValue,
+    quantity: {
+      value: 1,
+      unit: 'u',
+    },
+  };
+  
+  return product;
+}
+```
+
+Setting cost on **product1**:
+
+```javascript
+const product1 = db[0];
+product1.cost = {
+  value: 10,
+  quantity: {
+    value: 1,
+    unit: 'kg',
+  },
+};
+```
+
+That will activate the entire chain of updates.
 
 ```
+// => means "update"
+product1 => product3
+product3 => product4 & product5
+product4 => product5
+```
+
+Do you see the new problem? **product5** cost is calculated twice. It can be
+avoided by caching or making a list of products to be updated (without
+repetitions) before updating. At least we don't update all the products, it's an
+advance.
+
+### [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy): the fanciest way
+
+Let's make the previous example useless. We have to automate the process.
+
+> The Proxy object is used to define custom behavior for fundamental operations
+> (e.g. property lookup, assignment, enumeration, function invocation, etc).
+
+**Proxy** is a new feature in Javascript. It allows us to wrap an object to
+modify its behavior.
+
+> Proxy is an object in javascript which wraps an object or a function and
+> monitors it via something called target. Irrespective of the wrapped object or
+> function existence. Proxy are similar to meta programming in other languages.
+
+There are three key terms we have to understand:
+
+- **handler**: placeholder object which contains traps. Functions that do
+  something on Object or Function that is proxied.
+- **traps**: the methods that provide property access.
+- **target**: object which the proxy virtualizes. It is often used as storage
+  backend for the proxy. Invariants (semantics that remain unchanged) regarding
+  object non-extensibility or non-configurable properties are verified against
+  the target.
+  
+![What?](https://media.giphy.com/media/glmRyiSI3v5E4/giphy.gif)
+
+[Here](http://exploringjs.com/es6/ch_proxies.html#sec_proxy-use-cases) are some
+use cases. An example for you, my dear reader:
+
+```javascript
+const obj = {
+  message: 'This is the example, my dear reader',
+};
+
+const handler = {
+  get: (target, key) => {
+    console.log(`Reading property ${key}`); // key === 'message'
+    return target[key];
+  },
+  set: (target, key, value) => {
+    console.log(`Writing property ${key}`); // key === 'message'
+    target[key] = value;
+    return true;
+  },
+};
+
+const pObj = new Proxy(obj, handler);
+
+console.log(pObj.message);
+```
+
+Can you see the possibilities? Proxy allows us to intercept any call or
+interaction with the object (*target*).
+
+## Rising a new library
+
+asd
