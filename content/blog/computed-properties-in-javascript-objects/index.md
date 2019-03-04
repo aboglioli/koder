@@ -417,8 +417,24 @@ product object merging its properties and the new `cost`, but this would
 overwrite the setter and we would lose the possibility of executing custom
 functions. You know, it's mandatory to keep the same instance of the object.
 
+Another problem is accessing sub-properties: `product1.cost.value = 10`, because
+this won't activate the *setter*.
+
 Maybe we could create another function to update the object safely. But...
 better [KISS](https://en.wikipedia.org/wiki/KISS_principle) it for the moment.
 
+It's time to decide where we are going to calculate the costs: in the *getter*
+or in the *setter*. Reading is more frequent than writing. Also we don't want to
+be calculating the value every time we access the property because with many
+products it can become very heavy.
+
+The strategy is simple: activate *set cost()* setting a new value, find the
+dependent products and recalculate their costs. First of all let's code a
+function to calculate costs by product id.
+
 **product4** and **product5** have been added
 [here](https://jsbin.com/nucazal/edit?js,console).
+
+```javascript
+
+```

@@ -9,6 +9,8 @@ module.exports = {
     image: 'logo.png',
     social: {
       github: 'https://github.com/aboglioli',
+      linkedin: 'https://www.linkedin.com/in/alanboglioli/',
+      twitter: 'https://twitter.com/alanboglioli',
       instagram: 'https://instagram.com/alanboglioli',
       facebook: 'https://facebook.com/alan.boglioli',
     },
