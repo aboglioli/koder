@@ -1,6 +1,6 @@
 ---
 title: How did I build this blog?
-description: There is magic in the background.
+description: And why did I build it?
 date: 2019-03-01 00:47:42
 category: Web
 tags: [Static site generator, GatsbyJS]
