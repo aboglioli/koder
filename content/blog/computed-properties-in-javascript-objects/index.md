@@ -1,10 +1,9 @@
 ---
 title: Computed properties in Javascript objects
-date: 2019-03-02 19:27:32
+date: 2019-04-28 21:05:00
 description: Objects and properties dependent on each other
 category: Javascript
 tags: [Javascript]
-draft: true
 ---
 
 I know there are some libraries to compute properties value of Javascript
@@ -521,14 +520,14 @@ avoided by caching or making a list of products to be updated (without
 repetitions) before updating. At least we don't need to update all the products,
 it's an advance.
 
-### [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy): the fanciest way
+### Proxy: the fanciest way
 
 Let's make the previous example useless. We have to automate the process.
 
 > The Proxy object is used to define custom behavior for fundamental operations
 > (e.g. property lookup, assignment, enumeration, function invocation, etc).
 
-**Proxy** is a new feature in Javascript. It allows us to wrap an object to
+[Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) is a new feature in Javascript. It allows us to wrap an object to
 modify its behavior.
 
 > Proxy is an object in javascript which wraps an object or a function and
@@ -580,6 +579,262 @@ So do you think it is similar to the previous example using *getters* and
 getters/setters and
 Proxy](https://forum.kirupa.com/t/es6-proxy-vs-getters-setters/638547).
 
-## Rising a new library
+## Putting it all together
 
-asd
+The main benefit of using Proxy is that we can observe changes in an entire
+object. We can build a wrapper around an object.
+
+The next approach is very simple but it's a more complex example than most of
+the examples found on the web.
+
+In summary the example is based on some steps:
+
+1. Define our data to be watched in a common structure.
+2. Make a dependency tree. It will store information about the relations between
+   fields (dependent nodes).
+3. Wrap the data using a Proxy.
+3. Make a change to the observed data (to the wrapper actually, but there
+   shouldn't be difference).
+4. Intercept the change using Proxy.
+5. Check the tree and update related fields.
+
+First, our main function, `wrap`, who add *handlers* and intercepts changes:
+
+```javascript{28-44}
+const wrap = ({ getId, tree }, arr) => {
+  let notifyChanges = true;
+
+  // Wrap each item inside the object
+  const wrapItem = (item, prefix = '') => {
+    prefix = prefix || item.id;
+
+    const handlers = {
+      set: (target, key, value) => {
+        target[key] = value;
+
+        if (notifyChanges) {
+          notifyChanges = false;
+
+          const path = `${prefix}.${key}`;
+
+          const dependentNodes = findDependentNodes({ tree }, path, false);
+          computeFromNodes({ getId, tree, arr }, dependentNodes);
+
+          notifyChanges = true;
+        }
+
+        return true;
+      },
+    };
+
+    // Wrap properties recursively
+    item = Object.entries(item).reduce((newObj, [key, value]) => {
+      if (typeof value === 'object') {
+        if (!isKomputeObject(value)) {
+          const path = `${prefix}.${key}`;
+
+          const dependentNodes = findDependentNodes({ tree }, path, false);
+          if (dependentNodes.length > 0) {
+            value = wrapItem(value, `${prefix}.${key}`);
+          }
+        }
+      }
+
+      return {
+        ...newObj,
+        [key]: value,
+      };
+    }, {});
+
+    return new Proxy(item, handlers);
+  };
+
+  // Arr has to be reassigned to keep the same reference that returned array
+  arr = arr.map(item => wrapItem(item));
+  return arr;
+};
+```
+
+The highlighted part shows how the object is wrapped. It iterates over each item
+(property) and if the item is an *object*, this will be wrapped too. Thanks
+recursion!
+
+But, what is **tree**? Making the dependency tree is the first step. We need
+some kind of structure that allows us to map the relations, or rather, the
+dependencies between each field. The tree stores information about which element
+depends on another.
+
+```javascript
+// Our data represented in a non-conventional way
+const data = [{
+  id: 'id01',
+  value: 2,
+}, {
+  id: 'id02',
+  anotherValue: 5,
+  value: { // a dependent value
+    dependsOn: ['id01.value'], // the full path, explained below
+    compute: (item, dependencies) => {
+      // "item" is this object (id02),
+      // "dependencies" is an array containing each object
+      // declared as dependency in "dependsOn"
+      return item.anotherValue * dependencies[0].value; // 5 * 2 = 10
+    },
+  }
+}, {
+  id: 'id03',
+  anotherValue: 4,
+  value: { // a dependent value
+    dependsOn: ['id01.value'],
+    compute: (item, dependencies) => {
+      return item.anotherValue / dependencies[0].value; // 4 / 2 = 2
+    },
+  }
+}];
+
+// After making the tree:
+const tree = {
+  prop: 'id02.value',
+  dependsOn: ['id01.value'],
+  compute: () => {} // a function to call when an update occurs
+},
+{
+  prop: 'id03.value',
+  dependsOn: ['id01.value'],
+  compute: () => {} // a function to call when an update occurs
+};
+```
+
+Take a look at `data`. The field `value` from the second and third item has been
+declared with a particular strucure:
+
+```
+value: {
+  dependsOn: ['id1.field', 'id2.field'],
+  compute: (thisObject, [item1, item2]) => { // destructuring dependencies
+    // Here we can acces any field of the object
+    // where "value" is contained and the objects 
+    // that represents our dependencies.
+  }
+}
+```
+
+It's just a way to declare dependencies between fields. I found this approach
+very flexible. `dependsOn` could be an array, a string or a function. For example:
+
+```javascript{7}
+const data = [
+  ...,
+  {
+    id: 'id02',
+    relatedTo: 'id01'
+    value: {
+      dependsOn: item => `${item.relatedTo}.value`,
+      compute: (_, [id01]) => id01.value * 3,
+    },
+  },
+  ...
+  {
+    id: 'id03',
+    value: {
+      dependsOn: 'id01.value',
+      compute: (_, [id01]) => id01.value * 3,
+    },
+  },
+];
+```
+
+It can take the dependency *id* from itself. But... This is just an idea. I like
+to make things flexible.
+
+By the way, `id01.value` is a *path*. I think it would be easy to use somethink
+like this: `[object id].[path].[field]` to declare dependencies. A better
+example is `item2.data.subdata.value` where the path would be parsed as:
+
+- **item2**: object id
+- **data.subdata**: intermediate path
+- **value**: field name
+
+`data.subdata` could be easily used to reach `value` using
+[get](https://lodash.com/docs/4.17.11#get) function from
+[lodash](https://lodash.com).
+
+Let's continue. Time to make a tree.
+
+```javascript
+const makeDependencyTree = arr => {
+  let tree = [];
+
+  const resolveDependencies = (item, prefix = '') => {
+    prefix = prefix || item.id;
+
+    Object.entries(item).forEach(([key, value]) => {
+      const path = `${prefix}.${key}`;
+
+      // Does it have "dependsOn" and "compute" properties?
+      if (!isKomputeObject(value)) { 
+        if (typeof value === 'object') {
+          resolveDependencies(value, path);
+        }
+
+        return;
+      }
+
+      // Check dependsOn and compute properties
+      const dependsOnType = typeof value.dependsOn;
+      if (
+        dependsOnType !== 'string' &&
+        !Array.isArray(value.dependsOn) &&
+        dependsOnType !== 'function'
+      ) {
+        throw new Error('dependsOn must be a string, an array or a function');
+      }
+
+      if (typeof value.compute !== 'function') {
+        throw new Error('compute must be a function');
+      }
+
+      // Add to tree
+      const dependsOn = Array.isArray(value.dependsOn)
+        ? value.dependsOn
+        : dependsOnType === 'string'
+        ? [value.dependsOn]
+        : value.dependsOn(item);
+
+      tree = [...tree, { prop: path, dependsOn, compute: value.compute }];
+    });
+  };
+
+  arr.forEach(item => resolveDependencies(item));
+
+  if (checkCircularDependencies(tree)) {
+    throw new Error('Circular dependencies detected');
+  }
+
+  return tree;
+};
+```
+
+Again, using recursion, we make the tree. Recursion everywhere! This project
+would have been more complicated without using recursion.
+
+The function above is responsible for generating the tree. So we keep our data
+and the dependency tree separated. By this way we can change a property value in
+an object, check the tree and update the dependencies. Who is responsible for
+catching the change, checking the tree and updating dependencies? The Proxy, our
+wrapper.
+
+I could go on explained what went through my head at the time of doing this...
+but better [here](https://github.com/aboglioli/kompute) is the whole project.
+
+There are a lot of things to keep in mind, such as checking for circular
+dependencies. Just imagine two fields depending on each other...
+
+## Last words
+
+This kind of feature at a language level is very useful. **Proxy** could improve
+some projects focused on [reactive
+programming](https://en.wikipedia.org/wiki/Reactive_programming).
+
+There are many libraries and frameworks that solve similar situations out
+there. Take a look at **reactive programming** and its ecosystem.
